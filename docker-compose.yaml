@@ -1,0 +1,37 @@
+version: '3'
+services:
+
+  plex-media-server:
+    image: plexinc/pms-docker
+    env_file: config/plex.env
+    environment:
+      PLEX_UID: ${HOST_USER_ID:?HOST_USER_ID is required}
+      PLEX_GID: ${HOST_GROUP_ID:?HOST_GROUP_ID is required}
+      WATCHTOWER_SCOPE: plex-compose
+      TZ: ${TZ:-UTC}
+    devices:
+      - /dev/dri:/dev/dri
+    network_mode: host
+    volumes:
+      - plex-config:/config
+      - plex-transcode:/transcode
+      - ${MEDIA_PATH:?MEDIA_PATH is required}:/data:ro
+    labels:
+      com.centurylinklabs.watchtower.scope: plex-compose
+    restart: unless-stopped
+
+  watchtower:
+    image: containrrr/watchtower
+    env_file: config/watchtower.env
+    environment:
+      WATCHTOWER_SCOPE: plex-compose
+      TZ: ${TZ:-UTC}
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    labels:
+      com.centurylinklabs.watchtower.scope: plex-compose
+    restart: unless-stopped
+
+volumes:
+  plex-config: {}
+  plex-transcode: {}
