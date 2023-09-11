@@ -14,8 +14,8 @@ services:
     network_mode: host
     shm_size: ${SHM_SIZE:-64MB}
     volumes:
-      - plex-config:/config
-      - plex-transcode:/transcode
+      - ${CONFIG_PATH:-plex-config}:/config
+      - ${TRANSCODE_PATH:-plex-transcode}:/transcode
       - ${MEDIA_PATH:?MEDIA_PATH is required}:/data:ro
     labels:
       com.centurylinklabs.watchtower.scope: ${COMPOSE_PROJECT_NAME}
