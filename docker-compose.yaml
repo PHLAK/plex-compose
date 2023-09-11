@@ -1,4 +1,4 @@
-version: '3'
+version: '3.5'
 services:
 
   plex-media-server:
@@ -12,6 +12,7 @@ services:
     devices:
       - /dev/dri:/dev/dri
     network_mode: host
+    shm_size: ${SHM_SIZE:-64MB}
     volumes:
       - plex-config:/config
       - plex-transcode:/transcode
