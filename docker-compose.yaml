@@ -3,14 +3,15 @@ services:
 
   plex-media-server:
     image: plexinc/pms-docker
+    extends:
+      file: hardware-acceleration.yaml
+      service: hardware-acceleration
     env_file: config/plex.env
     environment:
       PLEX_UID: ${HOST_USER_ID:?HOST_USER_ID is required}
       PLEX_GID: ${HOST_GROUP_ID:?HOST_GROUP_ID is required}
       WATCHTOWER_SCOPE: ${COMPOSE_PROJECT_NAME}
       TZ: ${TZ:-UTC}
-    devices:
-      - /dev/dri:/dev/dri
     network_mode: host
     shm_size: ${SHM_SIZE:-64MB}
     volumes:
