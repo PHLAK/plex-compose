@@ -33,7 +33,7 @@ Installation
 
   3. Set the environment variables in `.env`
 
-  4. Set the application-specific environment variables by editing the files found in the `config` directory
+  4. Set the application-specific environment variables by editing the files found in the `environment.d` directory
 
   5. Run `docker-compose config` to validate and confirm your configuration
 

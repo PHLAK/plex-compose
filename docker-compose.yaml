@@ -6,7 +6,7 @@ services:
     extends:
       file: hardware-acceleration.yaml
       service: hardware-acceleration
-    env_file: config/plex.env
+    env_file: environment.d/plex.env
     environment:
       PLEX_UID: ${HOST_USER_ID:?HOST_USER_ID is required}
       PLEX_GID: ${HOST_GROUP_ID:?HOST_GROUP_ID is required}
@@ -24,7 +24,7 @@ services:
 
   watchtower:
     image: containrrr/watchtower
-    env_file: config/watchtower.env
+    env_file: environment.d/watchtower.env
     environment:
       WATCHTOWER_SCOPE: ${COMPOSE_PROJECT_NAME}
       TZ: ${TZ:-UTC}
