@@ -10,14 +10,13 @@ services:
     environment:
       PLEX_UID: ${HOST_USER_ID:?HOST_USER_ID is required}
       PLEX_GID: ${HOST_GROUP_ID:?HOST_GROUP_ID is required}
-      WATCHTOWER_SCOPE: ${COMPOSE_PROJECT_NAME}
-      TZ: ${TZ:-UTC}
     network_mode: host
     shm_size: ${SHM_SIZE:-64MB}
     volumes:
       - ${CONFIG_PATH:-plex-config}:/config
       - ${TRANSCODE_PATH:-plex-transcode}:/transcode
       - ${MEDIA_PATH:?MEDIA_PATH is required}:/data:ro
+      - /etc/localtime:/etc/localtime:ro
     labels:
       com.centurylinklabs.watchtower.scope: ${COMPOSE_PROJECT_NAME}
     restart: unless-stopped
@@ -27,9 +26,9 @@ services:
     env_file: environment.d/watchtower.env
     environment:
       WATCHTOWER_SCOPE: ${COMPOSE_PROJECT_NAME}
-      TZ: ${TZ:-UTC}
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
+      - /etc/localtime:/etc/localtime:ro
     labels:
       com.centurylinklabs.watchtower.scope: ${COMPOSE_PROJECT_NAME}
     restart: unless-stopped
